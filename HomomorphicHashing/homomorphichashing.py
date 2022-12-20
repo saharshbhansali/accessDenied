@@ -15,21 +15,27 @@ Original file is located at
 
 ## Properties of a Homomorphic Function: 
 
-    k.H(m + n + o) = k.H(m) + k.H(n) + k.H(o) = H(k.m) + H(k.n) + H(k.o)
+    k.H(x)
+        = H(k.x) 
+        = k.H(m + n + o + ... + t)
+        = H(k.(m + n + o + ... + t))
+        = H(k.m + k.n + k.o + ... + k.t)
+        = k.H(m) + k.H(n) + k.H(o) + ... + k.H(t)
+        = H(k.m) + H(k.n) + H(k.o) + ... + H(k.t)
 
     The homomorphic hash function is:
-        H(x) = g^x (mod q)
+        H(k.x) = k.H(x) = a^(k.x) (mod b)
 
-    here, sum = a + b + c + d + e -> sum is the key and
-    a, b, ..., e are the subkeys that are generated from the key
+    here, x = m + n + o + ... + t
+    x is the key and m, n, o, ..., t are the subkeys that are generated from the key
 """
 
 import random
 import math
 import json
 
-PASS_LEN = 15 # int(input("Enter maximum password length: "))
-BLOCK_LEN = 5 # int(input("Enter block size: "))
+PASS_LEN = int(input("Enter maximum password length: "))
+BLOCK_LEN = int(input("Enter block size: "))
 
 def isPrime(x: int) -> bool:
     '''
@@ -113,7 +119,7 @@ def client_hash(x: list, g: list, q: list, p: list, k = [1 for j in range(BLOCK_
 
 def server_hash(x: list, g: list, q: list, p: list, k = [1 for j in range(BLOCK_LEN)])  -> tuple:
     '''
-    implements "multiply": g^k.a * g^k.b (mod q)
+    implements "multiply": g^(k.a) * g^k.b (mod q)
     # hashed_products are the keys computed by each individual server
     # to compute the hash:
     ## compute the hash of each individual character by raising g to the power of the character (mod q)
@@ -160,6 +166,7 @@ client_tmp = client_hash(m, g, q, p)
 client_tmp_obf = client_hash(m, g, q, p, k)
 server_tmp = server_hash(m, g, q, p)
 server_tmp_obf = server_hash(m, g, q, p, k)
+obf_message = obfuscate(m, k)
 
 print(f"""
         Hash Function:\n\t H(x, a, b, k) = a^(k.x) (mod b)
@@ -169,7 +176,7 @@ print(f"""
         \tInput encoded into blocks (M):
         \t\t{m}
         \tObfuscated message (K.M):
-        \t\t{obfuscate(m, k)}
+        \t\t{obf_message}
         \tPrimes generated (P):
         \t\t{p}
         \tDependent primes (Q[i] | Q[i] % P[i] == 1):
@@ -207,3 +214,11 @@ print(f"""
     """)
 if(client_tmp_obf == server_tmp_obf[0]):
     print("\tChecking:\n\t\tObfuscated hashes are equal!")
+
+public_data = {'obfuscated-message': obf_message, 'G (base)': g, 'P (base primes)': p, 'Q (derived primes)': q, 'obfuscated-client-hash': client_tmp_obf}
+with open("./public-data.dat") as f:
+    json.dumps(public_data, f)
+
+private_data = {'K (obfuscation constants)': k, 'clean-message': client_tmp}
+with open("./private-data.dat") as f:
+    json.dumps(private_data, f)
