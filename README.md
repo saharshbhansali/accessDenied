@@ -44,5 +44,5 @@ git merge
 
 ## Authors
 
-**Authors:** [Saharsh Bhansali](https://github.com/saharshbhansali), [Kaushal Rathi](https://github.com/kaushalrathi24), [Risa](https://github.com/???), [Rutwij Patil](https://github.com/???), [Swarup Karul](https://github.com/???) <!-- [author1's name](link to their github profile), [author2's name](link to their github profile) .. -->  
+**Authors:** [Saharsh Bhansali](https://github.com/saharshbhansali), [Kaushal Rathi](https://github.com/kaushalrathi24), [Risa](https://github.com/Risa-16), [Rutwij Patil](https://github.com/Rutwij-Patil), [Swarup Karul](https://github.com/???) <!-- [author1's name](link to their github profile), [author2's name](link to their github profile) .. -->  
 **Contributors:** <!-- Generate contributors list using this link - https://contributors-img.web.app/preview -->
