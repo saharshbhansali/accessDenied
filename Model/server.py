@@ -38,7 +38,11 @@ async def main(server_id):
         await server.serve_forever()
 
 # Start three servers in parallel
+async def server():
+    await asyncio.run(main(0))
+    await asyncio.run(main(1))
+    await asyncio.run(main(2))
+# Run the asyncio event loop indefinitely
 loop = asyncio.get_event_loop()
-tasks = [ asyncio.async(main(0)), asyncio.async(main(1)), asyncio.async(main(2))]
-loop.run_until_complete(asyncio.wait(tasks))
-loop.close()
+loop.run_until_complete(server())
+loop.run_forever()
