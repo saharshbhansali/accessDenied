@@ -1,4 +1,5 @@
 import asyncio
+import sys
 
 # This function is called whenever a new client connects to the server
 async def handle_echo(reader, writer):
@@ -37,4 +38,9 @@ async def main(port):
     async with server:
         await server.serve_forever()
 
-asyncio.run(main(int(input('Enter the port number to run the server on: '))))
+def run_server(port=8888):
+    print(port)
+    asyncio.run(main(port))
+
+if __name__ == '__main__':
+    run_server(int(sys.argv[1]))
