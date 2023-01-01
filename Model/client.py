@@ -26,12 +26,11 @@ async def run_client(ports):
     for port in ports:
         await main(port)
 
-def main():
+def run():
     start = int(sys.argv[1])
     end = int(sys.argv[2])
     ports = range(start, end + 1)
     print(f"Ports:\n\tstart: {start}, end: {end}")
     asyncio.run(run_client(i for i in ports))
 
-if __name__ == '__main__':
-    main()
+run()
