@@ -1,11 +1,12 @@
 import asyncio
 
-# This function sends a message to a specific server
-async def send_message(server_id, message):
+# This is the main function of the client
+async def main(port):
     # Connect to the server
-    reader, writer = await asyncio.open_connection('127.0.0.1', 8888 + server_id)
+    reader, writer = await asyncio.open_connection('127.0.0.1', port)
 
     # Send a message to the server
+    message = 'Hello, World!'
     print(f'Send: {message!r}')
     writer.write(message.encode())
     await writer.drain()
@@ -20,18 +21,4 @@ async def send_message(server_id, message):
     print('Close the connection')
     writer.close()
 
-# This is the main function of the client
-async def run_clients():
-    # Send a message to each of the three servers
-    # a1 = asyncio.run(send_message(0, 'Hello, Server 0!'))
-    # a2 = asyncio.run(send_message(1, 'Hello, Server 1!'))
-    # a3 = asyncio.run(send_message(2, 'Hello, Server 2!'))
-    # asyncio.run(asyncio.gather(a1, a2, a3))
-    # await asyncio.gather(send_message(0, 'Hello, Server 0!'), send_message(1, 'Hello, Server 1!'), send_message(2, 'Hello, Server 2!'))
-    # Send a message to each of the three servers
-    
-    asyncio.async(send_message(0, 'Hello, Server 0!'))
-    asyncio.async(send_message(1, 'Hello, Server 1!'))
-    asyncio.async(send_message(2, 'Hello, Server 2!'))
-
-run_clients()
+asyncio.run(main(int(input('Enter the port number to run the server on: '))))
