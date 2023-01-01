@@ -21,12 +21,12 @@ async def send_message(server_id, message):
     writer.close()
 
 # This is the main function of the client
-async def main():
+def run_clients():
     # Send a message to each of the three servers
-    await asyncio.gather(
-        send_message(0, 'Hello, Server 0!'),
-        send_message(1, 'Hello, Server 1!'),
-        send_message(2, 'Hello, Server 2!')
-    )
+    # asyncio.run(send_message(0, 'Hello, Server 0!'))
+    # asyncio.run(send_message(1, 'Hello, Server 1!'))
+    # asyncio.run(send_message(2, 'Hello, Server 2!'))
 
-asyncio.run(main())
+    asyncio.gather(send_message(0, 'Hello, Server 0!'), send_message(1, 'Hello, Server 1!'), send_message(2, 'Hello, Server 2!'))
+
+run_clients()

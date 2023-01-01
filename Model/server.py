@@ -37,9 +37,12 @@ async def main(server_id):
     async with server:
         await server.serve_forever()
 
-# Start three servers in parallel
-done, pending = await asyncio.wait([
-    main(0),
-    main(1),
-    main(2)
-])
+def run_servers():
+    # Start three servers in parallel
+    # asyncio.run(main(0))
+    # asyncio.run(main(1))
+    # asyncio.run(main(2))
+
+    asyncio.gather(main(0), main(1), main(2))
+
+run_servers()
