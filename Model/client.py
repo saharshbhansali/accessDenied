@@ -1,12 +1,11 @@
 import asyncio
 
-# This is the main function of the client
-async def main():
+# This function sends a message to a specific server
+async def send_message(server_id, message):
     # Connect to the server
-    reader, writer = await asyncio.open_connection('127.0.0.1', 8888)
+    reader, writer = await asyncio.open_connection('127.0.0.1', 8888 + server_id)
 
     # Send a message to the server
-    message = 'Hello, World!'
     print(f'Send: {message!r}')
     writer.write(message.encode())
     await writer.drain()
@@ -20,5 +19,14 @@ async def main():
     # Close the connection
     print('Close the connection')
     writer.close()
+
+# This is the main function of the client
+async def main():
+    # Send a message to each of the three servers
+    await asyncio.gather(
+        send_message(0, 'Hello, Server 0!'),
+        send_message(1, 'Hello, Server 1!'),
+        send_message(2, 'Hello, Server 2!')
+    )
 
 asyncio.run(main())
