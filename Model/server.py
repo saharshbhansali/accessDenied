@@ -14,10 +14,10 @@ async def handle_echo(reader, writer):
     # Print a message indicating that we received data from the client
     print(f"Received {message!r} from {addr!r}")
 
-    # Send the data back to the client
-    print(f"Send: {message!r}")
-    writer.write(data)
-    await writer.drain()
+    # Send the data to all connected clients
+    for client in clients:
+        client.write(data)
+        await client.drain()
 
     # Close the connection to the client
     print("Close the client socket")
@@ -33,9 +33,15 @@ async def main():
     addr = server.sockets[0].getsockname()
     print(f'Serving on {addr}')
 
+    # Add the server to the list of clients
+    clients.append(server)
+
     # Run the server indefinitely
     async with server:
         await server.serve_forever()
 
+# Create an empty list to store connected clients
+clients = []
 
+# Run the main function in an asyncio event loop
 asyncio.run(main())
