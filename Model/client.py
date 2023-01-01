@@ -21,4 +21,4 @@ async def main():
     print('Close the connection')
     writer.close()
 
-await main()
+asyncio.run(main())
